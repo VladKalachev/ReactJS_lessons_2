@@ -1,71 +1,80 @@
 
 var my_news = [
-    {
-        author: 'Саша Печкин',
-        text: 'В четверг, четвертого числа...'
-    },
-    {
-        author: 'Просто Вася',
-        text: 'Считаю, что $ должен стоить 35 рублей!'
-    },
-    {
-        author: 'Гость',
-        text: 'Бесплатно. Скачать. Лучший сайт - http://localhost:3000'
-    }
+{
+    author: 'Саша Печкин',
+    text: 'В четверг, четвертого числа...'
+},
+{
+    author: 'Просто Вася',
+    text: 'Считаю, что $ должен стоить 35 рублей!'
+},
+{
+    author: 'Гость',
+    text: 'Бесплатно. Скачать. Лучший сайт - http://localhost:3000'
+}
 ];
 
 
 
-/*const Battom = React.createClass({
-    render(){
+var Article = React.createClass({
+    render: function() {
+        var author = this.props.data.author,
+        text = this.props.data.text;
         return (
-            <div>
-                <div>Bottom</div>
+            <div className="article">
+            <p className="news__author">{author}:</p>
+            <p className="news__text">{text}</p>
             </div>
-        )
+            )
     }
-});*/
+});
+
 
 /*Вывод списка с помошью свойт через компанент*/
 var News = React.createClass({
     render: function() {
         var data = this.props.data;
-        var newsTemplate = data.map(function(item, index) {
-            return (
-                <div key={index}>
-                    <p className="news__author">{item.author}:</p>
-                    <p className="news__text">{item.text}</p>
-                </div>
-                )
-        })
+        var newsTemplate;
+        if (data.length > 0) {
+            newsTemplate = data.map(function(item, index) {
+                return (
+                    <div key={index}>
+                    <Article data={item} />
+                    </div>
+                    )
+            })
+        } else {
+            newsTemplate = <p>К сожалению новостей нет</p>
+        }
+
+
         return (
             <div className="news">
-                {newsTemplate}
+            {newsTemplate}
+            <strong className={'news__count ' + (data.length > 0 ? '':'none') }>Всего ново
+стей: {data.length}</strong>
             </div>
             );
     }
 });
 
 
-const App = React.createClass({
-    render(){
+var App = React.createClass({
+    render: function() {
         return (
-            <div>
-                <h1 >Vlad</h1>
-                <p className="text1">List</p>
-               {/* <Battom />*/}
+            <div className="app">
+                <h3>Новости</h3>
                 <News data={my_news} />
-               {/* <h1>My name is: {this.props.data}</h1>*/}
             </div>
-        )
+            );
     }
 });
 
 const element = <h1>Hello, world!</h1>;
 const value1 = "Hello Wold";
 
-      ReactDOM.render(
-        <App />,
-        document.getElementById('container')
-      );
+ReactDOM.render(
+    <App />,
+    document.getElementById('container')
+    );
 
